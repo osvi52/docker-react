@@ -1,0 +1,17 @@
+FROM node:18-alpine as builder
+
+WORKDIR '/app'
+
+COPY package.json .
+
+RUN npm install -g npm@8.15.1
+
+COPY . .
+
+RUN npm run build
+
+##
+
+FROM nginx
+
+COPY --from=builder /app/build /usr/share/nginx/html
