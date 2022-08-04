@@ -8,4 +8,23 @@ before_install:
   ##- docker build -t docker-react -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true osvi52/docker-react npm run test -- --coverage
+  ##- docker run -e CI=true osvi52/docker-react npm run test -- --coverage
+  - docker run osvi52/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-2"
+  ###http://dockerreact-env.eba-hayabsde.eu-west-2.elasticbeanstalk.com/
+  app: "docker-react"
+  env: "Dockerreact-env"
+  bucket_name: "elasticbeanstalk-eu-west-2-891870530779"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
+
+
+
+
+
